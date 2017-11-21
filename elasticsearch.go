@@ -39,6 +39,7 @@ type ESRequestResponse struct {
 	ReqIfModifiedSince   string `json:"Req_If-Modified-Since,omitempty"`
 	ReqConnection        string `json:"Req_Connection,omitempty"`
 	ReqCookies           string `json:"Req_Cookies,omitempty"`
+	ReqPayload           string `json:"Req_Payload,omitempty"`
 	RespStatus           string `json:"Resp_Status"`
 	RespStatusCode       string `json:"Resp_Status-Code"`
 	RespProto            string `json:"Resp_Proto,omitempty"`
@@ -50,6 +51,7 @@ type ESRequestResponse struct {
 	RespCacheControl     string `json:"Resp_Cache-Control,omitempty"`
 	RespVary             string `json:"Resp_Vary,omitempty"`
 	RespSetCookie        string `json:"Resp_Set-Cookie,omitempty"`
+	RespPayload          string `json:"Resp_Payload,omitempty"`
 	Rtt                  int64  `json:"RTT"`
 	Timestamp            time.Time
 }
@@ -147,6 +149,7 @@ func (p *ESPlugin) ResponseAnalyze(req, resp []byte, start, stop time.Time) {
 		ReqIfModifiedSince:   string(proto.Header(req, []byte("If-Modified-Since"))),
 		ReqConnection:        string(proto.Header(req, []byte("Connection"))),
 		ReqCookies:           string(proto.Header(req, []byte("Cookie"))),
+		ReqPayload:           string(proto.Body(req)),
 		RespStatus:           string(proto.Status(resp)),
 		RespStatusCode:       string(proto.Status(resp)),
 		RespProto:            string(proto.Method(resp)),
@@ -158,6 +161,7 @@ func (p *ESPlugin) ResponseAnalyze(req, resp []byte, start, stop time.Time) {
 		RespCacheControl:     string(proto.Header(resp, []byte("Cache-Control"))),
 		RespVary:             string(proto.Header(resp, []byte("Vary"))),
 		RespSetCookie:        string(proto.Header(resp, []byte("Set-Cookie"))),
+		RespPayload:          string(proto.Body(resp)),
 		Rtt:                  rtt,
 		Timestamp:            t,
 	}
